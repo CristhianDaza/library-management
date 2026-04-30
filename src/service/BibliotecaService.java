@@ -1,7 +1,7 @@
 package service;
 
-import estructura.ListaLibros;
-import estructura.ListaUsuarios;
+import estructura.ArbolLibros;
+import estructura.ArbolUsuarios;
 import model.Libro;
 import model.Prestamo;
 import model.Usuario;
@@ -10,66 +10,84 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BibliotecaService {
-    private ListaLibros listaLibros;
-    private ListaUsuarios listaUsuarios;
+    private ArbolLibros arbolLibros;
+    private ArbolUsuarios arbolUsuarios;
     private List<Prestamo> prestamos;
     private int contadorPrestamos;
 
     public BibliotecaService() {
-        this.listaLibros = new ListaLibros();
-        this.listaUsuarios = new ListaUsuarios();
+        this.arbolLibros = new ArbolLibros();
+        this.arbolUsuarios = new ArbolUsuarios();
         this.prestamos = new ArrayList<>();
         this.contadorPrestamos = 1;
     }
 
     public void registrarLibro(int id, String titulo, String autor) {
-        Libro libroExistente = listaLibros.buscarPorId(id);
+        Libro libroExistente = arbolLibros.buscarPorId(id);
         if (libroExistente != null) {
             System.out.println("Ya existe un libro con ese ID.");
             return;
         }
 
         Libro nuevoLibro = new Libro(id, titulo, autor);
-        listaLibros.agregarLibro(nuevoLibro);
+        arbolLibros.insertar(nuevoLibro);
         System.out.println("Libro registrado correctamente.");
     }
 
     public void registrarUsuario(int id, String nombre) {
-        Usuario usuarioExistente = listaUsuarios.buscarPorId(id);
+        Usuario usuarioExistente = arbolUsuarios.buscarPorId(id);
         if (usuarioExistente != null) {
             System.out.println("Ya existe un usuario con ese ID.");
             return;
         }
 
         Usuario nuevoUsuario = new Usuario(id, nombre);
-        listaUsuarios.agregarUsuario(nuevoUsuario);
+        arbolUsuarios.insertar(nuevoUsuario);
         System.out.println("Usuario registrado correctamente.");
     }
 
     public Libro buscarLibroPorId(int id) {
-        return listaLibros.buscarPorId(id);
+        return arbolLibros.buscarPorId(id);
     }
 
     public Usuario buscarUsuarioPorId(int id) {
-        return listaUsuarios.buscarPorId(id);
+        return arbolUsuarios.buscarPorId(id);
     }
 
     public void mostrarLibros() {
-        listaLibros.mostrarLibros();
+        arbolLibros.mostrarInorden();
     }
 
     public void mostrarUsuarios() {
-        listaUsuarios.mostrarUsuarios();
+        arbolUsuarios.mostrarInorden();
+    }
+
+    public void eliminarLibroPorId(int id) {
+        boolean eliminado = arbolLibros.eliminarPorId(id);
+        if (eliminado) {
+            System.out.println("Libro eliminado correctamente.");
+        } else {
+            System.out.println("No se encontró un libro con ese ID.");
+        }
+    }
+
+    public void eliminarUsuarioPorId(int id) {
+        boolean eliminado = arbolUsuarios.eliminarPorId(id);
+        if (eliminado) {
+            System.out.println("Usuario eliminado correctamente.");
+        } else {
+            System.out.println("No se encontró un usuario con ese ID.");
+        }
     }
 
     public void prestarLibro(int idLibro, int idUsuario) {
-        Libro libro = listaLibros.buscarPorId(idLibro);
+        Libro libro = arbolLibros.buscarPorId(idLibro);
         if (libro == null) {
             System.out.println("El libro no existe.");
             return;
         }
 
-        Usuario usuario = listaUsuarios.buscarPorId(idUsuario);
+        Usuario usuario = arbolUsuarios.buscarPorId(idUsuario);
         if (usuario == null) {
             System.out.println("El usuario no existe.");
             return;
@@ -88,7 +106,7 @@ public class BibliotecaService {
     }
 
     public void devolverLibro(int idLibro) {
-        Libro libro = listaLibros.buscarPorId(idLibro);
+        Libro libro = arbolLibros.buscarPorId(idLibro);
         if (libro == null) {
             System.out.println("El libro no existe.");
             return;
