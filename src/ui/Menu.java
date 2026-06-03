@@ -56,6 +56,12 @@ public class Menu {
                     bibliotecaService.mostrarRelacionesGrafo();
                     break;
                 case 12:
+                    eliminarLibro();
+                    break;
+                case 13:
+                    eliminarUsuario();
+                    break;
+                case 14:
                     System.out.println("Saliendo del sistema...");
                     break;
                 default:
@@ -63,7 +69,7 @@ public class Menu {
             }
 
             System.out.println();
-        } while (opcion != 12);
+        } while (opcion != 14);
     }
 
     private void mostrarOpciones() {
@@ -79,7 +85,9 @@ public class Menu {
         System.out.println("9. Mostrar libros prestados por usuario");
         System.out.println("10. Mostrar usuarios que tomaron un libro");
         System.out.println("11. Mostrar relaciones del grafo");
-        System.out.println("12. Salir");
+        System.out.println("12. Eliminar libro");
+        System.out.println("13. Eliminar usuario");
+        System.out.println("14. Salir");
     }
 
     private void registrarLibro() {
@@ -132,6 +140,16 @@ public class Menu {
     private void mostrarUsuariosQueTomaronLibro() {
         int idLibro = leerEntero("Ingrese el ID del libro: ");
         bibliotecaService.mostrarUsuariosQueTomaronLibro(idLibro);
+    }
+
+    private void eliminarLibro() {
+        int idLibro = leerEntero("Ingrese el ID del libro a eliminar: ");
+        bibliotecaService.eliminarLibroPorId(idLibro);
+    }
+
+    private void eliminarUsuario() {
+        int idUsuario = leerEntero("Ingrese el ID del usuario a eliminar: ");
+        bibliotecaService.eliminarUsuarioPorId(idUsuario);
     }
 
     private int leerEntero(String mensaje) {
