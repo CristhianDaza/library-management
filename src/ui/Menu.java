@@ -47,6 +47,15 @@ public class Menu {
                     bibliotecaService.mostrarPrestamos();
                     break;
                 case 9:
+                    mostrarLibrosPrestadosPorUsuario();
+                    break;
+                case 10:
+                    mostrarUsuariosQueTomaronLibro();
+                    break;
+                case 11:
+                    bibliotecaService.mostrarRelacionesGrafo();
+                    break;
+                case 12:
                     System.out.println("Saliendo del sistema...");
                     break;
                 default:
@@ -54,7 +63,7 @@ public class Menu {
             }
 
             System.out.println();
-        } while (opcion != 9);
+        } while (opcion != 12);
     }
 
     private void mostrarOpciones() {
@@ -67,7 +76,10 @@ public class Menu {
         System.out.println("6. Mostrar libros");
         System.out.println("7. Mostrar usuarios");
         System.out.println("8. Mostrar préstamos");
-        System.out.println("9. Salir");
+        System.out.println("9. Mostrar libros prestados por usuario");
+        System.out.println("10. Mostrar usuarios que tomaron un libro");
+        System.out.println("11. Mostrar relaciones del grafo");
+        System.out.println("12. Salir");
     }
 
     private void registrarLibro() {
@@ -110,6 +122,16 @@ public class Menu {
     private void devolverLibro() {
         int idLibro = leerEntero("Ingrese el ID del libro a devolver: ");
         bibliotecaService.devolverLibro(idLibro);
+    }
+
+    private void mostrarLibrosPrestadosPorUsuario() {
+        int idUsuario = leerEntero("Ingrese el ID del usuario: ");
+        bibliotecaService.mostrarLibrosPrestadosPorUsuario(idUsuario);
+    }
+
+    private void mostrarUsuariosQueTomaronLibro() {
+        int idLibro = leerEntero("Ingrese el ID del libro: ");
+        bibliotecaService.mostrarUsuariosQueTomaronLibro(idLibro);
     }
 
     private int leerEntero(String mensaje) {
